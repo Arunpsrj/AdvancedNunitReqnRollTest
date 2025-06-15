@@ -2,7 +2,6 @@ namespace AdvancedReqnRollTest.Config;
 
 using OpenQA.Selenium;
 using Reqnroll.BoDi;
-using Allure.Commons;
 
 public static class ReqnrollServiceRegistration
 {
@@ -22,9 +21,6 @@ public static class ReqnrollServiceRegistration
 
         // Register POMs or additional dependencies
         container.RegisterTypeAs<LoginPage, LoginPage>();
-
-        // Optional: Clean Allure report directory
-        AllureLifecycle.Instance.CleanupResultDirectory();
 
         return driver;
     }

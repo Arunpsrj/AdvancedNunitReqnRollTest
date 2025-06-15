@@ -17,3 +17,7 @@ TestResults/
 *.tmp
 
 .idea/workspace.xml
+
+
+allure-results/
+allure-report/

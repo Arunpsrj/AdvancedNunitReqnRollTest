@@ -1,9 +1,15 @@
 using AdvancedReqnRollTest.Config;
+using Allure.Net.Commons;
+using Allure.NUnit;
+using Allure.NUnit.Attributes;
 using Reqnroll;
 using Reqnroll.BoDi;
 using OpenQA.Selenium;
 
 [Binding]
+[AllureNUnit]
+[AllureSuite("Login Suite")]
+[AllureSubSuite("Valid Login Tests")]
 public class TestHooks
 {
     private readonly IObjectContainer _objectContainer;
@@ -18,6 +24,7 @@ public class TestHooks
     public void BeforeScenario()
     {
         _driver = ReqnrollServiceRegistration.RegisterServices(_objectContainer);
+        AllureLifecycle.Instance.CleanupResultDirectory();
     }
 
     [AfterScenario]
