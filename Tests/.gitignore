@@ -1,0 +1,19 @@
+# Build artifacts
+bin/
+obj/
+TestResults/
+
+# Rider & IDE
+.idea/
+*.DotSettings.user
+
+# VS-specific
+.vs/
+*.user
+*.suo
+
+# Logs and temporary files
+*.log
+*.tmp
+
+.idea/workspace.xml
