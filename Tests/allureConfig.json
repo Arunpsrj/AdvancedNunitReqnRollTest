@@ -1,7 +1,0 @@
-{
-  "allure": {
-    "resultsDirectory": "allure-results",
-    "reportDirectory": "allure-report",
-    "cleanResultsDirectory": true
-  }
-}
