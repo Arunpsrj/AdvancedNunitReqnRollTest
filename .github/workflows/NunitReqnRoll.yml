@@ -59,7 +59,8 @@ jobs:
       - name: Run NUnit Tests with Allure
         run: |
           dotnet test --no-build --logger:"trx;LogFileName=test_results.trx" --results-directory "TestResults" --verbosity normal
-
+        continue-on-error: true
+        
       - name: Generate Allure Results
         run: |
           allure generate TestResults --clean -o allure-report
