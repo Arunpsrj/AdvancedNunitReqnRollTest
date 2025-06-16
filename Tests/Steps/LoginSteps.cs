@@ -21,7 +21,7 @@ public class LoginSteps
     [Given("the user verifies all the texts are displayed")]
     public void GivenTheUserVerifiesAllTheTextsAreDisplayed()
     {
-        Assert.IsTrue(true);
+        
     }
 
     [Given("the user navigate to {string} window")]

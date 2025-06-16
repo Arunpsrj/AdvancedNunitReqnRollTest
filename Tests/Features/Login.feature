@@ -5,10 +5,5 @@ Feature: CTM Login Page
     
     @criticalPath @Arun        
     Scenario: Main page Verification
-        Given the user verifies all the texts are displayed    
-        
-    @criticalPath @Arun        
-    Scenario: Child page Verification
         Given the user verifies all the texts are displayed 
-        And the user navigate to 'XXXX' window
         

@@ -18,18 +18,18 @@ namespace AdvancedReqnRollTest.Features
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("CTM Login Page")]
+    [NUnit.Framework.DescriptionAttribute("CTM Temp Profile Page functionalities")]
     [NUnit.Framework.FixtureLifeCycleAttribute(NUnit.Framework.LifeCycle.InstancePerTestCase)]
-    public partial class CTMLoginPageFeature
+    public partial class CTMTempProfilePageFunctionalitiesFeature
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "CTM Login Page", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "CTM Temp Profile Page functionalities", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
         
-#line 1 "Login.feature"
+#line 1 "TempProfile.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
@@ -112,16 +112,16 @@ namespace AdvancedReqnRollTest.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Main page Verification")]
+        [NUnit.Framework.DescriptionAttribute("Create a new temp record")]
         [NUnit.Framework.CategoryAttribute("criticalPath")]
         [NUnit.Framework.CategoryAttribute("Arun")]
-        public async global::System.Threading.Tasks.Task MainPageVerification()
+        public async global::System.Threading.Tasks.Task CreateANewTempRecord()
         {
             string[] tagsOfScenario = new string[] {
                     "criticalPath",
                     "Arun"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Main page Verification", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create a new temp record", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 7
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -136,7 +136,37 @@ namespace AdvancedReqnRollTest.Features
     await this.FeatureBackgroundAsync();
 #line hidden
 #line 8
-        await testRunner.GivenAsync("the user verifies all the texts are displayed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+        await testRunner.GivenAsync("the user navigates to \'Temp\' tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 9
+        await testRunner.AndAsync("the user clicks \'New\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 10
+        await testRunner.AndAsync("the user enters \'<unique_text>\' for \'temp first name\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 11
+        await testRunner.AndAsync("the user enters \'<unique_text>\' for \'temp last name\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 12
+        await testRunner.AndAsync("the user selects \'Active\' from the \'Status\' dropdown", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 13
+        await testRunner.AndAsync("the user selects \'JasonTest\' from the \'Region\' dropdown", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 14
+        await testRunner.AndAsync("the user clicks \'RN\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 15
+        await testRunner.AndAsync("the user clicks \'ER\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 16
+        await testRunner.AndAsync("the user enters \"16801 Addison Road\" as the address for \'temp\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 17
+        await testRunner.WhenAsync("the user clicks \'Save\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 18
+        await testRunner.ThenAsync("the user verifies the newly created \'temp\' ID is displayed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
