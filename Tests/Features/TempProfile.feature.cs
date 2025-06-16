@@ -136,10 +136,10 @@ namespace AdvancedReqnRollTest.Features
     await this.FeatureBackgroundAsync();
 #line hidden
 #line 8
-        await testRunner.GivenAsync("the user navigates to \'Temp\' tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+        await testRunner.GivenAsync("the user navigates to \'Temps\' tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 9
-        await testRunner.AndAsync("the user clicks \'New\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+        await testRunner.AndAsync("the user clicks \'New Temp link\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 10
         await testRunner.AndAsync("the user enters \'<unique_text>\' for \'temp first name\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -154,16 +154,16 @@ namespace AdvancedReqnRollTest.Features
         await testRunner.AndAsync("the user selects \'JasonTest\' from the \'Region\' dropdown", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 14
-        await testRunner.AndAsync("the user clicks \'RN\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+        await testRunner.AndAsync("the user clicks \'RN Cert\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 15
-        await testRunner.AndAsync("the user clicks \'ER\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+        await testRunner.AndAsync("the user clicks \'ER Spec\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 16
         await testRunner.AndAsync("the user enters \"16801 Addison Road\" as the address for \'temp\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 17
-        await testRunner.WhenAsync("the user clicks \'Save\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+        await testRunner.WhenAsync("the user clicks \'Temp Save\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 18
         await testRunner.ThenAsync("the user verifies the newly created \'temp\' ID is displayed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");

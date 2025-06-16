@@ -2,5 +2,6 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3a879246_002D3ce0_002D46cd_002Dbfe6_002Dfc625fe5a907/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="MainPageVerification" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;NUnit3x::7B5B57A0-F893-4C83-BF4A-88D1B0A0F4F2::net8.0::AdvancedReqnRollTest.Features.CTMLoginPageFeature.MainPageVerification&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::7B5B57A0-F893-4C83-BF4A-88D1B0A0F4F2::net8.0::AdvancedReqnRollTest.Features.CTMTempProfilePageFunctionalitiesFeature.CreateANewTempRecord&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

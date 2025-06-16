@@ -155,18 +155,19 @@ public abstract class BasePage
         }
     }
     
-    protected By GetBy(LocatorType type, string locator)
+    protected By GetBy(LocatorType type, string xpathTemplate, params object[] args)
     {
+        string finalLocator = string.Format(xpathTemplate, args);
         return type switch
         {
-            LocatorType.Id => By.Id(locator),
-            LocatorType.Name => By.Name(locator),
-            LocatorType.XPath => By.XPath(locator),
-            LocatorType.Css => By.CssSelector(locator),
-            LocatorType.Class => By.ClassName(locator),
-            LocatorType.Tag => By.TagName(locator),
-            LocatorType.LinkText => By.LinkText(locator),
-            LocatorType.PartialLinkText => By.PartialLinkText(locator),
+            LocatorType.Id => By.Id(finalLocator),
+            LocatorType.Name => By.Name(finalLocator),
+            LocatorType.XPath => By.XPath(finalLocator),
+            LocatorType.Css => By.CssSelector(finalLocator),
+            LocatorType.Class => By.ClassName(finalLocator),
+            LocatorType.Tag => By.TagName(finalLocator),
+            LocatorType.LinkText => By.LinkText(finalLocator),
+            LocatorType.PartialLinkText => By.PartialLinkText(finalLocator),
             _ => throw new ArgumentException($"Unsupported locator type: {type}")
         };
     }

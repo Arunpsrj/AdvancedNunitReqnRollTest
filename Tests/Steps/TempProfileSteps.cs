@@ -14,22 +14,16 @@ public class TempProfileSteps
     }
 
     [Given("the user navigates to {string} tab")]
-    public void GivenTheUserNavigatesToTab(string temp)
+    public void GivenTheUserNavigatesToTab(string tabName)
     {
-        
+        _pages.CommonPage.NavigateToTab(tabName);
     }
-
-    [StepDefinition("the user clicks {string}")]
-    public void GivenTheUserClicks(string function)
-    {
-        
-    }
-
 
     [Given("the user enters {string} for {string}")]
-    public void GivenTheUserEntersFor(string p0, string p1)
+    public void GivenTheUserEntersFor(string value, string field)
     {
-        
+        var resolvedValue = _pages.CommonPage.ResolveDynamicValue(value);
+        _pages.TempProfilePage.EnterTextForField(field, resolvedValue);
     }
 
 
