@@ -1,25 +1,32 @@
+using AdvancedReqnRollTest.Interfaces;
 using NUnit.Framework;
 using Reqnroll;
 
 [Binding]
 public class LoginSteps
 {
-    private readonly LoginPage _loginPage;
+    private readonly IPageObjectManager _pages;
 
-    public LoginSteps(LoginPage loginPage)
+    public LoginSteps(IPageObjectManager pages)
     {
-        _loginPage = loginPage;
+        _pages = pages;
     }
 
     [Given("the {string} user logged into {string} site")]
     public void GivenTheUserLoggedIntoSite(string user, string url)
     {
-        _loginPage.Login(user, url);
+        _pages.LoginPage.Login(user, url);
     }
 
     [Given("the user verifies all the texts are displayed")]
     public void GivenTheUserVerifiesAllTheTextsAreDisplayed()
     {
         Assert.IsTrue(true);
+    }
+
+    [Given("the user navigate to {string} window")]
+    public void GivenTheUserNavigateToWindow(string pageIdentifier)
+    {
+        _pages.LoginPage.NavigateToPage(pageIdentifier);
     }
 }

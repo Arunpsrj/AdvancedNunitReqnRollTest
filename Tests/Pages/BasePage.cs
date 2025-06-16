@@ -1,20 +1,22 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using AdvancedReqnRollTest.Enums;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 
 public abstract class BasePage
 {
     protected readonly IWebDriver Driver;
+    protected readonly Actions Actions;
+    private string _parentWindowHandle;
     private readonly int _defaultTimeoutInSeconds = 10;
 
     public BasePage(IWebDriver driver)
     {
         Driver = driver ?? throw new ArgumentNullException(nameof(driver));
     }
-
-    #region Element Find Helpers
-
     protected IWebElement WaitAndFind(By by, int timeoutSeconds = 10)
     {
         var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeoutSeconds));
@@ -26,10 +28,6 @@ public abstract class BasePage
         var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeoutSeconds));
         wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(by));
     }
-
-    #endregion
-
-    #region Actions
 
     protected void Click(By by)
     {
@@ -58,11 +56,105 @@ public abstract class BasePage
             throw;
         }
     }
+    
+    protected void SelectDropdownByValue(By by, string value)
+    {
+        try
+        {
+            var dropdown = new SelectElement(WaitAndFind(by));
+            dropdown.SelectByValue(value);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[DropdownByValue Error] Locator: {by}, Value: {value}. Error: {ex.Message}");
+            throw;
+        }
+    }
 
-    #endregion
+    protected void SelectDropdownByText(By by, string text)
+    {
+        try
+        {
+            var dropdown = new SelectElement(WaitAndFind(by));
+            dropdown.SelectByText(text);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[DropdownByText Error] Locator: {by}, Text: {text}. Error: {ex.Message}");
+            throw;
+        }
+    }
 
-    #region Locator Builder
+    protected void DoubleClick(By by)
+    {
+        try
+        {
+            var element = WaitAndFind(by);
+            Actions.DoubleClick(element).Perform();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[DoubleClick Error] Locator: {by}. Error: {ex.Message}");
+            throw;
+        }
+    }
 
+    protected void RightClick(By by)
+    {
+        try
+        {
+            var element = WaitAndFind(by);
+            Actions.ContextClick(element).Perform();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[RightClick Error] Locator: {by}. Error: {ex.Message}");
+            throw;
+        }
+    }
+
+    protected void HoverOverElement(By by)
+    {
+        try
+        {
+            var element = WaitAndFind(by);
+            Actions.MoveToElement(element).Perform();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[Hover Error] Locator: {by}. Error: {ex.Message}");
+            throw;
+        }
+    }
+
+    protected void JavaScriptClick(By by)
+    {
+        try
+        {
+            var element = WaitAndFind(by);
+            ((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].click();", element);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[JavaScriptClick Error] Locator: {by}. Error: {ex.Message}");
+            throw;
+        }
+    }
+
+    protected void ScrollIntoView(By by)
+    {
+        try
+        {
+            var element = WaitAndFind(by);
+            ((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].scrollIntoView(true);", element);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[ScrollIntoView Error] Locator: {by}. Error: {ex.Message}");
+            throw;
+        }
+    }
+    
     protected By GetBy(LocatorType type, string locator)
     {
         return type switch
@@ -78,6 +170,68 @@ public abstract class BasePage
             _ => throw new ArgumentException($"Unsupported locator type: {type}")
         };
     }
+    
+    protected void StoreParentWindow()
+    {
+        _parentWindowHandle = Driver.CurrentWindowHandle;
+    }
 
-    #endregion
+    protected void SwitchToParentWindow()
+    {
+        if (string.IsNullOrEmpty(_parentWindowHandle))
+            throw new InvalidOperationException("Parent window not stored. Call StoreParentWindow() first.");
+
+        Driver.SwitchTo().Window(_parentWindowHandle);
+    }
+
+    protected List<string> GetChildWindowHandles()
+    {
+        return Driver.WindowHandles
+            .Where(handle => handle != _parentWindowHandle)
+            .ToList();
+    }
+
+    protected void SwitchToChildWindowByIndex(int index)
+    {
+        var children = GetChildWindowHandles();
+        if (index < 0 || index >= children.Count)
+            throw new ArgumentOutOfRangeException(nameof(index), "Invalid child window index.");
+
+        Driver.SwitchTo().Window(children[index]);
+    }
+
+    protected void SwitchToWindowByTitle(string partialTitle)
+    {
+        foreach (var handle in Driver.WindowHandles)
+        {
+            Driver.SwitchTo().Window(handle);
+            if (Driver.Title.Contains(partialTitle, StringComparison.OrdinalIgnoreCase))
+                return;
+        }
+
+        throw new InvalidOperationException($"No window with title containing '{partialTitle}' found.");
+    }
+
+    protected void SwitchToWindowByUrl(string partialUrl)
+    {
+        foreach (var handle in Driver.WindowHandles)
+        {
+            Driver.SwitchTo().Window(handle);
+            if (Driver.Url.Contains(partialUrl, StringComparison.OrdinalIgnoreCase))
+                return;
+        }
+
+        throw new InvalidOperationException($"No window with URL containing '{partialUrl}' found.");
+    }
+
+    protected void CloseAllChildWindows()
+    {
+        var children = GetChildWindowHandles();
+        foreach (var child in children)
+        {
+            Driver.SwitchTo().Window(child);
+            Driver.Close();
+        }
+        SwitchToParentWindow();
+    }
 }

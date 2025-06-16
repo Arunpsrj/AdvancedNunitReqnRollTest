@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using AdvancedReqnRollTest.Enums;
 using OpenQA.Selenium;
 
@@ -54,5 +55,49 @@ public class LoginPage : BasePage
         Click(GetBy(LocatorType.Id, LoginButtonIdValue));
     }
     
+    public void NavigateToPage(string pageIdentifier)
+    {
+        if (string.IsNullOrEmpty(pageIdentifier))
+            throw new ArgumentException("Page identifier cannot be null or empty");
+
+        pageIdentifier = pageIdentifier.Trim().ToLower();
+
+        if (pageIdentifier == "parent")
+        {
+            SwitchToParentWindow();
+        }
+        else if (pageIdentifier == "popup")
+        {
+            StoreParentWindow(); // store before switching
+            SwitchToChildWindowByIndex(0); // switch to first child
+        }
+        else if (pageIdentifier.EndsWith("child"))
+        {
+            int childIndex = GetChildIndexFromIdentifier(pageIdentifier); // e.g., "1stchild" -> 0
+            SwitchToChildWindowByIndex(childIndex);
+        }
+        else
+        {
+            throw new ArgumentException($"Unsupported page identifier: {pageIdentifier}");
+        }
+    }
+
+    private int GetChildIndexFromIdentifier(string identifier)
+    {
+        // Supports 1stchild, 2ndchild, 3rdchild, etc.
+        if (identifier.StartsWith("1st")) return 0;
+        if (identifier.StartsWith("2nd")) return 1;
+        if (identifier.StartsWith("3rd")) return 2;
+
+        if (identifier.StartsWith("4th")) return 3;
+        if (identifier.StartsWith("5th")) return 4;
+
+        // fallback: try numeric prefix
+        var numberPart = new string(identifier.TakeWhile(char.IsDigit).ToArray());
+        if (int.TryParse(numberPart, out int index) && index > 0)
+            return index - 1;
+
+        throw new ArgumentException($"Invalid child window format: {identifier}");
+    }
     #endregion
 }

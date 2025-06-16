@@ -141,6 +141,43 @@ namespace AdvancedReqnRollTest.Features
             }
             await this.ScenarioCleanupAsync();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Child page Verification")]
+        [NUnit.Framework.CategoryAttribute("criticalPath")]
+        [NUnit.Framework.CategoryAttribute("Arun")]
+        public async global::System.Threading.Tasks.Task ChildPageVerification()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "criticalPath",
+                    "Arun"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Child page Verification", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 11
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 3
+    await this.FeatureBackgroundAsync();
+#line hidden
+#line 12
+        await testRunner.GivenAsync("the user verifies all the texts are displayed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 13
+        await testRunner.AndAsync("the user navigate to \'1stchild\' window", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 14
+        await testRunner.AndAsync("the user enters doctor firstname \'<unique_text>\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
     }
 }
 #pragma warning restore

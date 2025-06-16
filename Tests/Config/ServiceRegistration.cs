@@ -1,3 +1,5 @@
+using AdvancedReqnRollTest.Interfaces;
+
 namespace AdvancedReqnRollTest.Config;
 
 using OpenQA.Selenium;
@@ -7,7 +9,6 @@ public static class ReqnrollServiceRegistration
 {
     public static IWebDriver RegisterServices(IObjectContainer container)
     {
-        // Register config
         var settings = ConfigurationHelper.GetSettings<AppSettings>();
         container.RegisterInstanceAs(settings);
 
@@ -19,8 +20,9 @@ public static class ReqnrollServiceRegistration
         var driver = driverManager.InitDriver();
         container.RegisterInstanceAs<IWebDriver>(driver);
 
-        // Register POMs or additional dependencies
-        container.RegisterTypeAs<LoginPage, LoginPage>();
+        // ✅ Pass AppSettings to PageObjectManager
+        IPageObjectManager pageManager = new PageObjectManager(driver, settings);
+        container.RegisterInstanceAs<IPageObjectManager>(pageManager);
 
         return driver;
     }
