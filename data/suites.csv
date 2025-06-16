@@ -1,3 +1,3 @@
 "Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"failed","Mon Jun 16 04:08:49 UTC 2025","Mon Jun 16 04:08:52 UTC 2025","2994","","AdvancedReqnRollTest.Features.CTMLoginPageFeature","","AdvancedReqnRollTest.Features.CTMLoginPageFeature","","ChildPageVerification",""
-"passed","Mon Jun 16 04:08:52 UTC 2025","Mon Jun 16 04:08:54 UTC 2025","1734","","AdvancedReqnRollTest.Features.CTMLoginPageFeature","","AdvancedReqnRollTest.Features.CTMLoginPageFeature","","MainPageVerification",""
+"passed","Mon Jun 16 13:11:42 UTC 2025","Mon Jun 16 13:11:51 UTC 2025","8510","","AdvancedReqnRollTest.Features.CTMLoginPageFeature","","AdvancedReqnRollTest.Features.CTMLoginPageFeature","","MainPageVerification",""
+"passed","Mon Jun 16 13:11:51 UTC 2025","Mon Jun 16 13:11:53 UTC 2025","1608","","AdvancedReqnRollTest.Features.CTMTempProfilePageFunctionalitiesFeature","","AdvancedReqnRollTest.Features.CTMTempProfilePageFunctionalitiesFeature","","CreateANewTempRecord",""
