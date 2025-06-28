@@ -1,7 +1,10 @@
 using System;
 using System.Linq;
 using AdvancedReqnRollTest.Enums;
+using AdvancedReqnRollTest.Models;
 using OpenQA.Selenium;
+
+namespace AdvancedReqnRollTest.Pages;
 
 public class LoginPage : BasePage
 {

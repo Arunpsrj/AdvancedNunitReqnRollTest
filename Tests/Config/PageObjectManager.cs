@@ -1,4 +1,5 @@
 using AdvancedReqnRollTest.Interfaces;
+using AdvancedReqnRollTest.Models;
 using AdvancedReqnRollTest.Pages;
 using OpenQA.Selenium;
 
@@ -12,6 +13,7 @@ public class PageObjectManager : IPageObjectManager
     private LoginPage _loginPage;
     private TempProfilePage _tempProfilePage;
     private CommonPage _commonPage;
+    private ClientProfilePage _clientProfilePage;
 
     public PageObjectManager(IWebDriver driver, AppSettings settings)
     {
@@ -27,4 +29,7 @@ public class PageObjectManager : IPageObjectManager
 
     public CommonPage CommonPage =>
         _commonPage ??= new CommonPage(_driver);
+    
+    public ClientProfilePage ClientProfilePage =>
+        _clientProfilePage ??= new ClientProfilePage(_driver);
 }

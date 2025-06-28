@@ -2,9 +2,11 @@ using AdvancedReqnRollTest.Config;
 using Allure.Net.Commons;
 using Allure.NUnit;
 using Allure.NUnit.Attributes;
+using OpenQA.Selenium;
 using Reqnroll;
 using Reqnroll.BoDi;
-using OpenQA.Selenium;
+
+namespace AdvancedReqnRollTest.Hooks;
 
 [Binding]
 [AllureNUnit]

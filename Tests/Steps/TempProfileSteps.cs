@@ -1,4 +1,6 @@
+using System;
 using AdvancedReqnRollTest.Interfaces;
+using AdvancedReqnRollTest.Models;
 using Reqnroll;
 
 namespace AdvancedReqnRollTest.Steps;
@@ -7,10 +9,12 @@ namespace AdvancedReqnRollTest.Steps;
 public class TempProfileSteps
 {
     private readonly IPageObjectManager _pages;
+    private readonly ScenarioContext _scenarioContext;
 
-    public TempProfileSteps(IPageObjectManager pages)
+    public TempProfileSteps(IPageObjectManager pages, ScenarioContext scenarioContext)
     {
         _pages = pages;
+        _scenarioContext = scenarioContext;
     }
 
     [Given("the user navigates to {string} tab")]
@@ -19,30 +23,11 @@ public class TempProfileSteps
         _pages.CommonPage.NavigateToTab(tabName);
     }
 
-    [Given("the user enters {string} for {string}")]
-    public void GivenTheUserEntersFor(string value, string field)
+    [Then("the user verifies the newly created temp ID is displayed")]
+    public void ThenTheUserVerifiesTheNewlyCreatedTempIdIsDisplayed()
     {
-        var resolvedValue = _pages.CommonPage.ResolveDynamicValue(value);
-        _pages.TempProfilePage.EnterTextForField(field, resolvedValue);
-    }
-
-
-    [Given("the user selects {string} from the {string} dropdown")]
-    public void GivenTheUserSelectsFromTheDropdown(string active, string status)
-    {
-        
-    }
-
-
-    [Given("the user enters {string} as the address for {string}")]
-    public void GivenTheUserEntersAsTheAddressFor(string p0, string temp)
-    {
-        
-    }
-
-    [Then("the user verifies the newly created {string} ID is displayed")]
-    public void ThenTheUserVerifiesTheNewlyCreatedIdIsDisplayed(string temp)
-    {
-        
+        string tempId = _pages.TempProfilePage.GetTempIdFromFormData();
+        _scenarioContext[ScenarioKeys.TempUserId] = tempId;
+        Console.WriteLine("Saved Temp ID: " + tempId);
     }
 }

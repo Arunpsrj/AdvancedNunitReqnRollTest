@@ -6,6 +6,8 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 
+namespace AdvancedReqnRollTest.Pages;
+
 public abstract class BasePage
 {
     protected readonly IWebDriver Driver;
@@ -61,7 +63,7 @@ public abstract class BasePage
     {
         try
         {
-            var dropdown = new SelectElement(WaitAndFind(by));
+            var dropdown = GetSelectElement(by);
             dropdown.SelectByValue(value);
         }
         catch (Exception ex)
@@ -75,7 +77,7 @@ public abstract class BasePage
     {
         try
         {
-            var dropdown = new SelectElement(WaitAndFind(by));
+            var dropdown = GetSelectElement(by);
             dropdown.SelectByText(text);
         }
         catch (Exception ex)
@@ -83,6 +85,12 @@ public abstract class BasePage
             Console.WriteLine($"[DropdownByText Error] Locator: {by}, Text: {text}. Error: {ex.Message}");
             throw;
         }
+    }
+
+    private SelectElement GetSelectElement(By by)
+    {
+        var element = WaitAndFind(by);
+        return new SelectElement(element);
     }
 
     protected void DoubleClick(By by)

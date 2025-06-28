@@ -1,4 +1,4 @@
-using AdvancedReqnRollTest.Config;
+namespace AdvancedReqnRollTest.Models;
 
 public class AppSettings
 {

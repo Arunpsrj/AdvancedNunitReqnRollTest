@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 
+namespace AdvancedReqnRollTest.Config;
+
 public static class ConfigurationHelper
 {
     private static readonly IConfigurationRoot Configuration;
@@ -13,7 +15,7 @@ public static class ConfigurationHelper
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
         Configuration = builder.Build()
-            ?? throw new InvalidOperationException("Failed to build configuration");
+                        ?? throw new InvalidOperationException("Failed to build configuration");
     }
 
     public static T GetSettings<T>() where T : class

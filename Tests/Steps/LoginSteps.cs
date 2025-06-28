@@ -1,6 +1,7 @@
 using AdvancedReqnRollTest.Interfaces;
-using NUnit.Framework;
 using Reqnroll;
+
+namespace AdvancedReqnRollTest.Steps;
 
 [Binding]
 public class LoginSteps

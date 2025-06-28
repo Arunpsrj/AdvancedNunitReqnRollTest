@@ -1,4 +1,5 @@
 using System;
+using System.Text.RegularExpressions;
 using AdvancedReqnRollTest.Enums;
 using OpenQA.Selenium;
 
@@ -10,20 +11,17 @@ public class TempProfilePage : BasePage
     {
         
     }
-
-    private string TempFirstNameId => "firstname";
-    private string TempLastNameId => "lastname";
     
-    public void EnterTextForField(string fieldLabel, string value)
+    private string TempRecordInfo => "//td[text()='Record Info']/following-sibling::td[@class='cv-form-data']";
+    
+    public string GetTempIdFromFormData()
     {
-        var locator = fieldLabel switch
-        {
-            "temp first name" => GetBy(LocatorType.Name, TempFirstNameId),
-            "temp last name" => GetBy(LocatorType.Name, TempLastNameId),
-            // Add more field mappings as needed
-            _ => throw new ArgumentException($"No mapping defined for: {fieldLabel}")
-        };
+        string fullText = WaitAndFind(GetBy(LocatorType.XPath, TempRecordInfo)).Text;
 
-        EnterText(locator, value);
+        var match = Regex.Match(fullText, @"Temp ID:\s*(\d+)");
+        if (!match.Success)
+            throw new Exception("Temp ID not found in the form data section.");
+        var tempId = match.Groups[1].Value;
+        return tempId;
     }
 }
