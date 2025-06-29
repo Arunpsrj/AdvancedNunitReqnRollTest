@@ -36,7 +36,7 @@ public class CommonPage : BasePage
 
     public void ClickButtonXpath(string buttonName)
     {
-        if (_buttonXpaths.TryGetValue(buttonName, out var xpath))
+        if (ButtonXpaths.TryGetValue(buttonName, out var xpath))
         {
             Click(GetBy(LocatorType.XPath, xpath));
         }
