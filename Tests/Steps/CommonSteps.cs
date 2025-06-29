@@ -35,12 +35,12 @@ public class CommonSteps
     {
         var dict = table.Rows.ToDictionary(row => row["AddressDetails"].ToLower(), row => row["AddressValues"]);
 
-        var address = new Address
+        var address = new AddressModel()
         {
-            address = dict.GetValueOrDefault("address"),
-            city = dict.GetValueOrDefault("city"),
-            state = dict.GetValueOrDefault("state"),
-            zip = dict.GetValueOrDefault("zip")
+            Address = dict.GetValueOrDefault("address"),
+            City = dict.GetValueOrDefault("city"),
+            State = dict.GetValueOrDefault("state"),
+            Zip = dict.GetValueOrDefault("zip")
         };
         
         _pages.CommonPage.FillAddressFor(type, address);

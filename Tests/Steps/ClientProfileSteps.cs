@@ -22,6 +22,6 @@ public class ClientProfileSteps
     {
         string clientId = _pages.ClientProfilePage.GetClientIdFromFormData();
         _scenarioContext[ScenarioKeys.ClientUserId] = clientId;
-        Console.WriteLine("Saved Temp ID: " + clientId);
+        Console.WriteLine("Saved Client ID: " + clientId);
     }
 }

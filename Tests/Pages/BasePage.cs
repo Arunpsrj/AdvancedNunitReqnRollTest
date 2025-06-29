@@ -19,6 +19,30 @@ public abstract class BasePage
     {
         Driver = driver ?? throw new ArgumentNullException(nameof(driver));
     }
+    
+    protected string RNCertButtonXpath => "//li[@title='RN']";
+    protected string CertPartialXpath => "//li[@title='{0}']";
+    protected string CertTextBoxId => "certstxt";
+    protected static string ERSpecButtonXpath => "//li[@title='ER']";
+    protected string SpecPartialXpath => "//li[@title='{0}']";
+    protected string SpecTextBoxId => "specstxt";
+    protected string SaveButtonXpath => "//input[@id='saveBtn']";
+    protected string StatusDropDownName => "status";
+    protected static string HomeRegionDropDownId => "HomeRegion";
+    protected string RegionDropDownId => "region";
+    protected string AddressLineId => "address";
+    protected string CityId => "city";
+    protected string StateId => "state";
+    protected string ZipId => "zip";
+    protected string TemporaryAddressLineId => "address_2";
+    protected string TemporaryCityId => "city_2";
+    protected string TemporaryStateId => "state_2";
+    protected string TemporaryZipId => "zip_2";
+    protected string NewClientLinkXpath => "//a[text()='New']";
+    protected string TempFirstNameId => "firstname";
+    protected string TempLastNameId => "lastname";
+    protected string ClientNameId => "clientname";
+    
     protected IWebElement WaitAndFind(By by, int timeoutSeconds = 10)
     {
         var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeoutSeconds));

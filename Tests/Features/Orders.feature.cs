@@ -18,18 +18,18 @@ namespace AdvancedReqnRollTest.Features
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("CTM Temp Profile Page functionalities")]
+    [NUnit.Framework.DescriptionAttribute("CTM Order functionalities")]
     [NUnit.Framework.FixtureLifeCycleAttribute(NUnit.Framework.LifeCycle.InstancePerTestCase)]
-    public partial class CTMTempProfilePageFunctionalitiesFeature
+    public partial class CTMOrderFunctionalitiesFeature
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "CTM Temp Profile Page functionalities", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "CTM Order functionalities", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
         
-#line 1 "TempProfile.feature"
+#line 1 "Orders.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
@@ -112,16 +112,16 @@ namespace AdvancedReqnRollTest.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Create a new temp record")]
+        [NUnit.Framework.DescriptionAttribute("Create a new per diem order")]
         [NUnit.Framework.CategoryAttribute("criticalPath")]
         [NUnit.Framework.CategoryAttribute("Arun")]
-        public async global::System.Threading.Tasks.Task CreateANewTempRecord()
+        public async global::System.Threading.Tasks.Task CreateANewPerDiemOrder()
         {
             string[] tagsOfScenario = new string[] {
                     "criticalPath",
                     "Arun"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create a new temp record", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create a new per diem order", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 7
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -135,53 +135,68 @@ namespace AdvancedReqnRollTest.Features
 #line 3
     await this.FeatureBackgroundAsync();
 #line hidden
-#line 8
-        await testRunner.GivenAsync("the user navigates to \'Temps\' tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 9
-        await testRunner.AndAsync("the user clicks \'New Temp link\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 10
-        await testRunner.AndAsync("the user enters \'<unique_text>\' for \'temp first name\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 11
-        await testRunner.AndAsync("the user enters \'<unique_text>\' for \'temp last name\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 12
-        await testRunner.AndAsync("the user selects \'Active\' from the \'Status\' dropdown", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 13
-        await testRunner.AndAsync("the user selects \'JasonTest\' from the \'HomeRegion\' dropdown", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 14
-        await testRunner.AndAsync("the user clicks \'RN Cert\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 15
-        await testRunner.AndAsync("the user clicks \'ER Spec\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-                global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
-                            "AddressDetails",
-                            "AddressValues"});
-                table4.AddRow(new string[] {
+                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
+                            "Field",
+                            "Value"});
+                table2.AddRow(new string[] {
+                            "firstname",
+                            "<unique_text>"});
+                table2.AddRow(new string[] {
+                            "lastname",
+                            "<unique_text>"});
+                table2.AddRow(new string[] {
+                            "status",
+                            "Active"});
+                table2.AddRow(new string[] {
+                            "homeRegion",
+                            "JasonTest"});
+                table2.AddRow(new string[] {
+                            "certification",
+                            "RN"});
+                table2.AddRow(new string[] {
+                            "speciality",
+                            "ER"});
+                table2.AddRow(new string[] {
                             "address",
                             "16801 Addison Road"});
-                table4.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "city",
                             "Addison"});
-                table4.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "state",
                             "TX"});
-                table4.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "zip",
                             "75001"});
-#line 16
-        await testRunner.AndAsync("the user enters following address for \'temp-permanent\'", ((string)(null)), table4, "And ");
+#line 8
+        await testRunner.GivenAsync("the user creates new \'temp\' with following details", ((string)(null)), table2, "Given ");
 #line hidden
-#line 22
-        await testRunner.WhenAsync("the user clicks \'Temp Save\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 23
-        await testRunner.ThenAsync("the user verifies the newly created temp ID is displayed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
+                            "Field",
+                            "Value"});
+                table3.AddRow(new string[] {
+                            "clientname",
+                            "<unique_text>"});
+                table3.AddRow(new string[] {
+                            "status",
+                            "Active"});
+                table3.AddRow(new string[] {
+                            "region",
+                            "JasonTest"});
+                table3.AddRow(new string[] {
+                            "address",
+                            "6575 West Loop South"});
+                table3.AddRow(new string[] {
+                            "city",
+                            "Bellaire"});
+                table3.AddRow(new string[] {
+                            "state",
+                            "TX"});
+                table3.AddRow(new string[] {
+                            "zip",
+                            "77401"});
+#line 20
+       await testRunner.GivenAsync("the user creates new \'client\' with following details", ((string)(null)), table3, "Given ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

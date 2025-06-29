@@ -8,4 +8,5 @@ public interface IPageObjectManager
     TempProfilePage  TempProfilePage { get; }
     CommonPage CommonPage { get; }
     ClientProfilePage ClientProfilePage { get; }
+    OrderPage OrderPage { get; }
 }

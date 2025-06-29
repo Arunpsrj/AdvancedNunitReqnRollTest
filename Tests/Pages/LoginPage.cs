@@ -52,7 +52,10 @@ public class LoginPage : BasePage
 
         string targetUrl = url.Equals("default", StringComparison.OrdinalIgnoreCase) ? _settings.LoginUrl : url;
         Driver.Navigate().GoToUrl(targetUrl);
-
+        
+        string baseUrl = targetUrl.Replace("/login.cfm", "");
+        AppUrls.BaseUrl = baseUrl;
+        
         EnterText(GetBy(LocatorType.Id, UsernameTextboxIdValue), resolvedUsername);
         EnterText(GetBy(LocatorType.Id, PasswordTextboxIdValue), resolvedPassword);
         Click(GetBy(LocatorType.Id, LoginButtonIdValue));

@@ -14,6 +14,7 @@ public class PageObjectManager : IPageObjectManager
     private TempProfilePage _tempProfilePage;
     private CommonPage _commonPage;
     private ClientProfilePage _clientProfilePage;
+    private OrderPage _orderPage;
 
     public PageObjectManager(IWebDriver driver, AppSettings settings)
     {
@@ -32,4 +33,7 @@ public class PageObjectManager : IPageObjectManager
     
     public ClientProfilePage ClientProfilePage =>
         _clientProfilePage ??= new ClientProfilePage(_driver);
+    
+    public OrderPage OrderPage =>
+        _orderPage ??= new OrderPage(_driver);
 }

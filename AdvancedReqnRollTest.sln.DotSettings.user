@@ -5,5 +5,6 @@
     &lt;TestId&gt;NUnit3x::7B5B57A0-F893-4C83-BF4A-88D1B0A0F4F2::net8.0::AdvancedReqnRollTest.Features.CTMLoginPageFeature.MainPageVerification&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::7B5B57A0-F893-4C83-BF4A-88D1B0A0F4F2::net8.0::AdvancedReqnRollTest.Features.CTMTempProfilePageFunctionalitiesFeature.CreateANewTempRecord&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::7B5B57A0-F893-4C83-BF4A-88D1B0A0F4F2::net8.0::AdvancedReqnRollTest.Features.CTMClientProfilePageFunctionalitiesFeature.CreateANewClientRecord&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::7B5B57A0-F893-4C83-BF4A-88D1B0A0F4F2::net8.0::AdvancedReqnRollTest.Features.CTMOrderFunctionalitiesFeature.CreateANewPerDiemOrder&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
