@@ -26,4 +26,15 @@ Feature: CTM Order functionalities
           | city       | Bellaire             |
           | state      | TX                   |
           | zip        | 77401                |
-          
+       Given the user opens '/ordermanager-legacy.cfm' url page 
+       And the user clicks 'New Order link'
+       Given the user navigate to 'popup' window
+       Given the user creates new 'order' with following details
+         | Field         | Value                        |
+         | Clientname    | <scenario_client_clientName> |
+         | Tempname      | <scenario_temp_lastName>     |
+         | BookingRegion | JasonTest                    |
+         | StartDate     | <getDate+1>                  |
+         | certification | RN                           |
+         | speciality    | ER                           |
+         | ShiftId       | 7A-3P (1)                    |

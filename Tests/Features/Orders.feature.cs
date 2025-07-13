@@ -198,6 +198,42 @@ namespace AdvancedReqnRollTest.Features
 #line 20
        await testRunner.GivenAsync("the user creates new \'client\' with following details", ((string)(null)), table3, "Given ");
 #line hidden
+#line 29
+       await testRunner.GivenAsync("the user opens \'/ordermanager-legacy.cfm\' url page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 30
+       await testRunner.AndAsync("the user clicks \'New Order link\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 31
+       await testRunner.GivenAsync("the user navigate to \'popup\' window", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+                global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
+                            "Field",
+                            "Value"});
+                table4.AddRow(new string[] {
+                            "Clientname",
+                            "<scenario_client_clientName>"});
+                table4.AddRow(new string[] {
+                            "Tempname",
+                            "<scenario_temp_lastName>"});
+                table4.AddRow(new string[] {
+                            "BookingRegion",
+                            "JasonTest"});
+                table4.AddRow(new string[] {
+                            "StartDate",
+                            "<getDate+1>"});
+                table4.AddRow(new string[] {
+                            "certification",
+                            "RN"});
+                table4.AddRow(new string[] {
+                            "speciality",
+                            "ER"});
+                table4.AddRow(new string[] {
+                            "ShiftId",
+                            "7A-3P (1)"});
+#line 32
+       await testRunner.GivenAsync("the user creates new \'order\' with following details", ((string)(null)), table4, "Given ");
+#line hidden
             }
             await this.ScenarioCleanupAsync();
         }

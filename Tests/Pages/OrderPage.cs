@@ -11,7 +11,19 @@ public class OrderPage : BasePage
     {
         
     }
-
+    
+    private string ClientSearchName => "button2";
+    private string TempSearchBoxId => "tempSelector";
+    private string TempSearchXpath => "(//input[@value='Search'])[2]";
+    private string BookingRegionId => "bookingRegion";
+    private string StartDateId => "jobdatestart_display";
+    private string ShiftIdPartialXpath => "//option[text()='{0}']";
+    private string SaveDone_Id => "createdone";
+    private string TempConfirm_Name => "TempConfirmYN";
+    private string ClientConfirm_Name => "ClientConfirmYN";
+    private string FillOrder_Id => "confirmed1";
+    private string OrderId_Xpath => "//td[contains(text(),'Your order has been created.')]/a";
+    private string Text_a_tag_PartialXpath => "//a[text()='{0}']";
     public void CreateTempWithDetails(TempModel tempDetails)
     {
         Driver.Navigate().GoToUrl(AppUrls.BaseUrl+AppUrls.TempNewUrl);
@@ -41,5 +53,31 @@ public class OrderPage : BasePage
         EnterText(GetBy(LocatorType.Id, StateId), clientDetails.State);
         EnterText(GetBy(LocatorType.Id, ZipId), clientDetails.Zip);
         Click(GetBy(LocatorType.XPath, SaveButtonXpath));
+    }
+    
+    public void CreateOrderWithDetails(OrderModel orderDetails)
+    {
+        EnterText(GetBy(LocatorType.Name,ClientNameId),orderDetails.Clientname);
+        Click(GetBy(LocatorType.Name,ClientSearchName));
+        WaitUntilVisible(GetBy(LocatorType.XPath,Text_a_tag_PartialXpath,orderDetails.Clientname));
+        EnterText(GetBy(LocatorType.Id,TempSearchBoxId),orderDetails.Tempname);
+        Click(GetBy(LocatorType.XPath,TempSearchXpath));
+        SelectDropdownByText(GetBy(LocatorType.Id,BookingRegionId),  orderDetails.BookingRegion);
+        EnterText(GetBy(LocatorType.Id, StartDateId), orderDetails.StartDate);
+        Click(GetBy(LocatorType.XPath,ShiftIdPartialXpath,orderDetails.ShiftId));
+        EnterText(GetBy(LocatorType.Id,CertTextBoxId),orderDetails.Certification);
+        Click(GetBy(LocatorType.XPath, CertPartialXpath,orderDetails.Certification));
+        EnterText(GetBy(LocatorType.Id,SpecTextBoxId),orderDetails.Speciality);
+        Click(GetBy(LocatorType.XPath, SpecPartialXpath,orderDetails.Speciality));
+        Click(GetBy(LocatorType.Id,SaveDone_Id));
+        Click(GetBy(LocatorType.Name, TempConfirm_Name));
+        Click(GetBy(LocatorType.Name, ClientConfirm_Name));
+        Click(GetBy(LocatorType.Id, FillOrder_Id));
+    }
+    
+    public string NewlyCreatedOrderId()
+    {
+        var orderId = WaitAndFind(GetBy(LocatorType.XPath, OrderId_Xpath)).Text.Trim();
+        return orderId;
     }
 }

@@ -30,12 +30,21 @@ public class OrdersSteps
                 var details = table.Rows.ToDictionary(row => row["Field"].ToLower(), row => row["Value"]);
 
                 // Resolve dynamic placeholders
-                foreach (var key in new[] { "firstname", "lastname" })
+                var tempFields = new Dictionary<string, string>
                 {
+                    { "firstname", ScenarioKeys.TempFirstName },
+                    { "lastname", ScenarioKeys.TempLastName }
+                };
+
+                foreach (var kvp in tempFields)
+                {
+                    var key = kvp.Key;
+                    var scenarioKey = kvp.Value;
+
                     if (details.TryGetValue(key, out var value) && value == "<unique_text>")
                     {
                         var resolvedValue = _pages.CommonPage.ResolveDynamicValue("<unique_text>");
-                        _scenarioContext[$"Temp{key}"] = resolvedValue;
+                        _scenarioContext[scenarioKey] = resolvedValue;
                         details[key] = resolvedValue;
                         Console.WriteLine($"Temp{key} is {resolvedValue}");
                     }
@@ -70,7 +79,7 @@ public class OrdersSteps
                     if (details.TryGetValue(key, out var value) && value == "<unique_text>")
                     {
                         var resolvedValue = _pages.CommonPage.ResolveDynamicValue("<unique_text>");
-                        _scenarioContext[$"{key}"] = resolvedValue;
+                        _scenarioContext[ScenarioKeys.ClientName] = resolvedValue;
                         details[key] = resolvedValue;
                         Console.WriteLine($"{key} is {resolvedValue}");
                     }
@@ -91,9 +100,58 @@ public class OrdersSteps
                 string clientId = _pages.ClientProfilePage.GetClientIdFromFormData();
                 _scenarioContext[ScenarioKeys.ClientUserId] = clientId;
                 Console.WriteLine("Saved Client ID: " + clientId);
-            }
                 break;
+            }
+            case "order":
+            {
+                var details = table.Rows.ToDictionary(row => row["Field"].ToLower(), row => row["Value"]);
+
+                foreach (var key in details.Keys.ToList()) // Use ToList() to safely modify dictionary
+                {
+                    if (!details.TryGetValue(key, out var value)) continue;
+
+                    switch (key)
+                    {
+                        case "clientname":
+                            if (value.Contains("scenario", StringComparison.OrdinalIgnoreCase))
+                            {
+                                details[key] = _scenarioContext.Get<string>(ScenarioKeys.ClientName);
+                            }
+                            break;
+                        case "tempname":
+                            if (value.Contains("scenario", StringComparison.OrdinalIgnoreCase))
+                            {
+                                var firstName = _scenarioContext.Get<string>(ScenarioKeys.TempFirstName);
+                                var lastName = _scenarioContext.Get<string>(ScenarioKeys.TempLastName);
+                                details[key] = $"{firstName} {lastName}";
+                            }
+                            break;
+                        case "startdate":
+                            if (value.Contains("getDate", StringComparison.OrdinalIgnoreCase))
+                            {
+                                details[key] = _pages.CommonPage.ResolveDatePattern(details[key]);
+                            }
+                            break;
+                    }
+                }
+                
+                var orderDetails = new OrderModel()
+                {
+                    Clientname = details.GetValueOrDefault("clientname"),
+                    Tempname = details.GetValueOrDefault("tempname"),
+                    BookingRegion = details.GetValueOrDefault("bookingregion"),
+                    StartDate = details.GetValueOrDefault("startdate"),
+                    Certification = details.GetValueOrDefault("certification"),
+                    Speciality = details.GetValueOrDefault("speciality"),
+                    ShiftId = details.GetValueOrDefault("shiftid")
+                };
+                
+                _pages.OrderPage.CreateOrderWithDetails(orderDetails);
+                _pages.LoginPage.NavigateToPage("parent");
+                _scenarioContext[ScenarioKeys.OrderId] = _pages.OrderPage.NewlyCreatedOrderId();
+                Console.WriteLine("OrderId:"  +  _scenarioContext[ScenarioKeys.OrderId]);
+                break;
+            }
         }
-        
     }
 }

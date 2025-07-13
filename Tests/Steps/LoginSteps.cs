@@ -24,10 +24,4 @@ public class LoginSteps
     {
         
     }
-
-    [Given("the user navigate to {string} window")]
-    public void GivenTheUserNavigateToWindow(string pageIdentifier)
-    {
-        _pages.LoginPage.NavigateToPage(pageIdentifier);
-    }
 }

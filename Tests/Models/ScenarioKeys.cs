@@ -7,4 +7,5 @@ public static class ScenarioKeys
     public const string TempUserId = "TempUserId";
     public const string ClientName = "ClientName";
     public const string ClientUserId = "ClientUserId";
+    public const string OrderId = "OrderId";
 }

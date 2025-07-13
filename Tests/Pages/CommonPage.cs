@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using AdvancedReqnRollTest.Enums;
 using AdvancedReqnRollTest.Models;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 
 namespace AdvancedReqnRollTest.Pages;
 
@@ -11,14 +13,17 @@ public class CommonPage : BasePage
 {
     public CommonPage(IWebDriver driver) : base(driver)
     {
-        
     }
 
     private string TabNameIdValue => "cv_Tab_{0}";
     private string NewTempLinkXpath => "//a[text()='New']";
+    private string NewOrderLinkXpath => "//a[text()='New']";
     private Dictionary<string, string> _buttonXpaths;
     private static readonly Random _random = new();
-    
+    private static readonly Regex DateAddPattern = new(@"<getDate\+(\d+)>", RegexOptions.IgnoreCase);
+    private static readonly Regex DateSubPattern = new(@"<getDate-(\d+)>", RegexOptions.IgnoreCase);
+    private static readonly Regex TodayPattern   = new(@"<getDate>", RegexOptions.IgnoreCase);
+
     private Dictionary<string, string> ButtonXpaths => _buttonXpaths ??= new()
     {
         { "New Temp link", NewTempLinkXpath },
@@ -26,7 +31,8 @@ public class CommonPage : BasePage
         { "ER Spec", ERSpecButtonXpath },
         { "Temp Save", SaveButtonXpath },
         { "New Client link", NewClientLinkXpath },
-        { "Client Save", SaveButtonXpath }
+        { "Client Save", SaveButtonXpath },
+        {"New Order link", NewOrderLinkXpath}
     };
     
     public void NavigateToTab(string tabName)
@@ -114,5 +120,46 @@ public class CommonPage : BasePage
             _ => throw new ArgumentException($"No mapping defined for: {fieldLabel}")
         };
         EnterText(locator, value);
+    }
+
+    public void NavigatetoUrl(string urlSufix)
+    {
+        Driver.Navigate().GoToUrl(AppUrls.BaseUrl+urlSufix);
+        WaitForPageToLoad();
+    }
+    
+    public string ResolveDatePattern(string datePattern)
+    {
+        if (string.IsNullOrWhiteSpace(datePattern))
+            return string.Empty;
+
+        // <getDate+X>
+        if (DateAddPattern.IsMatch(datePattern))
+        {
+            var match = DateAddPattern.Match(datePattern);
+            if (int.TryParse(match.Groups[1].Value, out int daysToAdd))
+            {
+                return DateTime.Today.AddDays(daysToAdd).ToString("yyyy-MM-dd");
+            }
+        }
+
+        // <getDate-X>
+        if (DateSubPattern.IsMatch(datePattern))
+        {
+            var match = DateSubPattern.Match(datePattern);
+            if (int.TryParse(match.Groups[1].Value, out int daysToSubtract))
+            {
+                return DateTime.Today.AddDays(-daysToSubtract).ToString("yyyy-MM-dd");
+            }
+        }
+
+        // <getDate>
+        if (TodayPattern.IsMatch(datePattern))
+        {
+            return DateTime.Today.ToString("yyyy-MM-dd");
+        }
+
+        // No match found — return original pattern or empty
+        return datePattern;
     }
 }

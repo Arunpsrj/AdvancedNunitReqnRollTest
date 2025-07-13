@@ -64,4 +64,16 @@ public class CommonSteps
             _scenarioContext[ScenarioKeys.ClientName] = resolvedValue;
         }
     }
+    
+    [Given(@"the user opens '(.*)' url page")]
+    public void GivenTheUserOpensUrlPage(string urlSufix)
+    {
+        _pages.CommonPage.NavigatetoUrl(urlSufix);
+    }
+    
+    [Given(@"the user navigate to '(.*)' window")]
+    public void GivenTheUserNavigateToWindow(string pageIdentifier)
+    {
+        _pages.LoginPage.NavigateToPage(pageIdentifier);
+    }
 }

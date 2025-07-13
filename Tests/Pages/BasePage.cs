@@ -267,4 +267,12 @@ public abstract class BasePage
         }
         SwitchToParentWindow();
     }
+    
+    protected void WaitForPageToLoad()
+    {
+        WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(15));
+        wait.Until(driver =>
+            ((IJavaScriptExecutor)driver).ExecuteScript("return document.readyState").ToString() == "complete"
+        );
+    }
 }
