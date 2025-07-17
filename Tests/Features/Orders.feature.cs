@@ -237,6 +237,146 @@ namespace AdvancedReqnRollTest.Features
             }
             await this.ScenarioCleanupAsync();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Get order using ClearConnect method")]
+        [NUnit.Framework.CategoryAttribute("criticalPath")]
+        [NUnit.Framework.CategoryAttribute("Arun")]
+        public async global::System.Threading.Tasks.Task GetOrderUsingClearConnectMethod()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "criticalPath",
+                    "Arun"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Get order using ClearConnect method", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 43
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 3
+    await this.FeatureBackgroundAsync();
+#line hidden
+                global::Reqnroll.Table table5 = new global::Reqnroll.Table(new string[] {
+                            "Field",
+                            "Value"});
+                table5.AddRow(new string[] {
+                            "firstname",
+                            "<unique_text>"});
+                table5.AddRow(new string[] {
+                            "lastname",
+                            "<unique_text>"});
+                table5.AddRow(new string[] {
+                            "status",
+                            "Active"});
+                table5.AddRow(new string[] {
+                            "homeRegion",
+                            "JasonTest"});
+                table5.AddRow(new string[] {
+                            "certification",
+                            "RN"});
+                table5.AddRow(new string[] {
+                            "speciality",
+                            "ER"});
+                table5.AddRow(new string[] {
+                            "address",
+                            "16801 Addison Road"});
+                table5.AddRow(new string[] {
+                            "city",
+                            "Addison"});
+                table5.AddRow(new string[] {
+                            "state",
+                            "TX"});
+                table5.AddRow(new string[] {
+                            "zip",
+                            "75001"});
+#line 44
+        await testRunner.GivenAsync("the user creates new \'temp\' with following details", ((string)(null)), table5, "Given ");
+#line hidden
+                global::Reqnroll.Table table6 = new global::Reqnroll.Table(new string[] {
+                            "Field",
+                            "Value"});
+                table6.AddRow(new string[] {
+                            "clientname",
+                            "<unique_text>"});
+                table6.AddRow(new string[] {
+                            "status",
+                            "Active"});
+                table6.AddRow(new string[] {
+                            "region",
+                            "JasonTest"});
+                table6.AddRow(new string[] {
+                            "address",
+                            "6575 West Loop South"});
+                table6.AddRow(new string[] {
+                            "city",
+                            "Bellaire"});
+                table6.AddRow(new string[] {
+                            "state",
+                            "TX"});
+                table6.AddRow(new string[] {
+                            "zip",
+                            "77401"});
+#line 56
+        await testRunner.GivenAsync("the user creates new \'client\' with following details", ((string)(null)), table6, "Given ");
+#line hidden
+#line 65
+        await testRunner.GivenAsync("the user opens \'/ordermanager-legacy.cfm\' url page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 66
+        await testRunner.AndAsync("the user clicks \'New Order link\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 67
+        await testRunner.GivenAsync("the user navigate to \'popup\' window", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+                global::Reqnroll.Table table7 = new global::Reqnroll.Table(new string[] {
+                            "Field",
+                            "Value"});
+                table7.AddRow(new string[] {
+                            "Clientname",
+                            "<scenario_client_clientName>"});
+                table7.AddRow(new string[] {
+                            "Tempname",
+                            "<scenario_temp_lastName>"});
+                table7.AddRow(new string[] {
+                            "BookingRegion",
+                            "JasonTest"});
+                table7.AddRow(new string[] {
+                            "StartDate",
+                            "<getDate+1>"});
+                table7.AddRow(new string[] {
+                            "certification",
+                            "RN"});
+                table7.AddRow(new string[] {
+                            "speciality",
+                            "ER"});
+                table7.AddRow(new string[] {
+                            "ShiftId",
+                            "7A-3P (1)"});
+#line 68
+        await testRunner.GivenAsync("the user creates new \'order\' with following details", ((string)(null)), table7, "Given ");
+#line hidden
+                global::Reqnroll.Table table8 = new global::Reqnroll.Table(new string[] {
+                            "Field",
+                            "Value"});
+                table8.AddRow(new string[] {
+                            "orderId",
+                            "<scenario_order_orderId>"});
+#line 77
+        await testRunner.GivenAsync("a \"REST\" request sent for \"getOrders\" to the \"default\" site with the following ar" +
+                        "guments", ((string)(null)), table8, "Given ");
+#line hidden
+#line 80
+        await testRunner.ThenAsync("the web response should contain \"status\" with value \"filled\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
     }
 }
 #pragma warning restore

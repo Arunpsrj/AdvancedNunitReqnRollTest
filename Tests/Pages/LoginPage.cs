@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using AdvancedReqnRollTest.Enums;
 using AdvancedReqnRollTest.Models;
+using AdvancedReqnRollTest.Registry;
 using OpenQA.Selenium;
 
 namespace AdvancedReqnRollTest.Pages;
@@ -104,6 +105,28 @@ public class LoginPage : BasePage
             return index - 1;
 
         throw new ArgumentException($"Invalid child window format: {identifier}");
+    }
+
+    public string GetAPIUrl(string site)
+    {
+        if (site.ToLower() != "default")
+            throw new ArgumentException($"Unknown site: {site}");
+
+        var loginUrl = _settings.LoginUrl; // Example: https://ctmsqa.contingenttalentmanagement.com/swportal/login.cfm
+        var uri = new Uri(loginUrl);
+
+        // Extract "https://ctmsqa.contingenttalentmanagement.com"
+        var baseUrl = $"{uri.Scheme}://{uri.Host}";
+
+        // Extract "/swportal"
+        var pathSegments = uri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+        if (pathSegments.Length == 0)
+            throw new InvalidOperationException("Invalid login URL format");
+
+        var rootFolder = pathSegments[0]; // "swportal"
+
+        // Final API URL
+        return $"{baseUrl}/{rootFolder}/clearconnect/2_0/";
     }
     #endregion
 }

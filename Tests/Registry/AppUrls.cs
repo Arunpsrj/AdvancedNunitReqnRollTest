@@ -1,4 +1,4 @@
-namespace AdvancedReqnRollTest.Models;
+namespace AdvancedReqnRollTest.Registry;
 
 public class AppUrls
 {

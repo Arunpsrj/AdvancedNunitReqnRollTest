@@ -1,6 +1,7 @@
 using System;
 using AdvancedReqnRollTest.Interfaces;
 using AdvancedReqnRollTest.Models;
+using AdvancedReqnRollTest.Registry;
 using Reqnroll;
 
 namespace AdvancedReqnRollTest.Steps;

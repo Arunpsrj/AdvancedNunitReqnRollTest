@@ -1,4 +1,4 @@
-namespace AdvancedReqnRollTest.Models;
+namespace AdvancedReqnRollTest.Registry;
 
 public static class ScenarioKeys
 {
@@ -8,4 +8,5 @@ public static class ScenarioKeys
     public const string ClientName = "ClientName";
     public const string ClientUserId = "ClientUserId";
     public const string OrderId = "OrderId";
+    public const string LastResponse = "LastResponse";
 }

@@ -1,6 +1,7 @@
 using AdvancedReqnRollTest.Drivers;
 using AdvancedReqnRollTest.Interfaces;
 using AdvancedReqnRollTest.Models;
+using AdvancedReqnRollTest.RestAPI;
 
 namespace AdvancedReqnRollTest.Config;
 
@@ -25,7 +26,11 @@ public static class ReqnrollServiceRegistration
         // ✅ Pass AppSettings to PageObjectManager
         IPageObjectManager pageManager = new PageObjectManager(driver, settings);
         container.RegisterInstanceAs<IPageObjectManager>(pageManager);
-
+        
+        // ✅ Register REST components here
+        var restFactory = new RestFactory();
+        container.RegisterInstanceAs(restFactory);
+        
         return driver;
     }
 }

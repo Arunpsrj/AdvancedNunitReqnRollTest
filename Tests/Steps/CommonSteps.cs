@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AdvancedReqnRollTest.Interfaces;
 using AdvancedReqnRollTest.Models;
+using AdvancedReqnRollTest.Registry;
 using Reqnroll;
 
 namespace AdvancedReqnRollTest.Steps;

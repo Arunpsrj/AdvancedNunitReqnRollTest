@@ -1,7 +1,15 @@
 using System;
+using System.Collections.Generic;
 using AdvancedReqnRollTest.Interfaces;
 using AdvancedReqnRollTest.Models;
+using AdvancedReqnRollTest.RestAPI;
 using Reqnroll;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using AdvancedReqnRollTest.Registry;
+using FluentAssertions;
+using RestSharp;
 
 namespace AdvancedReqnRollTest.Steps;
 
@@ -10,11 +18,14 @@ public class TempProfileSteps
 {
     private readonly IPageObjectManager _pages;
     private readonly ScenarioContext _scenarioContext;
+    private readonly RestFactory _restFactory;
 
-    public TempProfileSteps(IPageObjectManager pages, ScenarioContext scenarioContext)
+
+    public TempProfileSteps(IPageObjectManager pages, ScenarioContext scenarioContext,  RestFactory restFactory)
     {
         _pages = pages;
         _scenarioContext = scenarioContext;
+        _restFactory = restFactory;
     }
 
     [Given("the user navigates to {string} tab")]

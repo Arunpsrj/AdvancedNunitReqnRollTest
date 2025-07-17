@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using AdvancedReqnRollTest.Enums;
 using AdvancedReqnRollTest.Models;
+using AdvancedReqnRollTest.Registry;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 

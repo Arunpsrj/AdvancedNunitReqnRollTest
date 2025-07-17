@@ -159,23 +159,23 @@ namespace AdvancedReqnRollTest.Features
 #line 15
         await testRunner.AndAsync("the user clicks \'ER Spec\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table5 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table9 = new global::Reqnroll.Table(new string[] {
                             "AddressDetails",
                             "AddressValues"});
-                table5.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "address",
                             "16801 Addison Road"});
-                table5.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "city",
                             "Addison"});
-                table5.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "state",
                             "TX"});
-                table5.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "zip",
                             "75001"});
 #line 16
-        await testRunner.AndAsync("the user enters following address for \'temp-permanent\'", ((string)(null)), table5, "And ");
+        await testRunner.AndAsync("the user enters following address for \'temp-permanent\'", ((string)(null)), table9, "And ");
 #line hidden
 #line 22
         await testRunner.WhenAsync("the user clicks \'Temp Save\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");

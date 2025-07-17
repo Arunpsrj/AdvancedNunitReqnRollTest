@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using AdvancedReqnRollTest.Enums;
 using AdvancedReqnRollTest.Models;
+using AdvancedReqnRollTest.Registry;
 using OpenQA.Selenium;
 
 namespace AdvancedReqnRollTest.Pages;
