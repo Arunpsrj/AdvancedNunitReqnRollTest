@@ -29,7 +29,7 @@ public class WebDriverManager : IWebDriverManager
 
         return _settings.RunOn?.ToLower() switch
         {
-            "browserstack" => InitRemoteDriver(browserType),
+            "browserstack" => InitRemoteDriver(),
             _ => InitLocalDriver(browserType)
         };
     }
@@ -70,7 +70,7 @@ public class WebDriverManager : IWebDriverManager
         return options;
     }
     
-    private IWebDriver InitRemoteDriver(BrowserType browserType)
+    private IWebDriver InitRemoteDriver()
     {
         if (string.IsNullOrWhiteSpace(_settings.BrowserStack?.User) ||
             string.IsNullOrWhiteSpace(_settings.BrowserStack?.Key))
