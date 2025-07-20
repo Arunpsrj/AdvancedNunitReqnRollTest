@@ -9,4 +9,5 @@ public interface IPageObjectManager
     CommonPage CommonPage { get; }
     ClientProfilePage ClientProfilePage { get; }
     OrderPage OrderPage { get; }
+    DbHelperPage DbHelperPage { get; }
 }

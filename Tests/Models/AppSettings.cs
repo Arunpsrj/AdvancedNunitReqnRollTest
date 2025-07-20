@@ -8,4 +8,5 @@ public class AppSettings
     public required string LoginUrl { get; set; }
     public required string RunOn { get; set; }
     public required BrowserStackSettings BrowserStack { get; set; }
+    public required ConnectionStrings ConnectionStrings { get; set; }
 }

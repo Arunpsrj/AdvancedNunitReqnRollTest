@@ -22,7 +22,7 @@ public class ClientProfileSteps
     public void ThenTheUserVerifiesTheNewlyCreatedClientIdIsDisplayed()
     {
         string clientId = _pages.ClientProfilePage.GetClientIdFromFormData();
-        _scenarioContext[ScenarioKeys.ClientUserId] = clientId;
+        _scenarioContext[ScenarioKeys.ClientId] = clientId;
         Console.WriteLine("Saved Client ID: " + clientId);
     }
 }

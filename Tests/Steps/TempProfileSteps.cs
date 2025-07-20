@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AdvancedReqnRollTest.Registry;
 using FluentAssertions;
+using NUnit.Framework;
 using RestSharp;
 
 namespace AdvancedReqnRollTest.Steps;
@@ -38,7 +39,9 @@ public class TempProfileSteps
     public void ThenTheUserVerifiesTheNewlyCreatedTempIdIsDisplayed()
     {
         string tempId = _pages.TempProfilePage.GetTempIdFromFormData();
-        _scenarioContext[ScenarioKeys.TempUserId] = tempId;
+        _scenarioContext[ScenarioKeys.TempId] = tempId;
+        bool isInserted = _pages.DbHelperPage.InsertTempRecords(_scenarioContext.Get<string>(ScenarioKeys.TempId),_scenarioContext.Get<string>(ScenarioKeys.TempFirstName),_scenarioContext.Get<string>(ScenarioKeys.TempLastName));
+        Assert.IsTrue(isInserted, "Temp record was not inserted into the database.");
         Console.WriteLine("Saved Temp ID: " + tempId);
     }
 }

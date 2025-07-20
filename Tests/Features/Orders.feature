@@ -78,3 +78,4 @@ Feature: CTM Order functionalities
           | Field   | Value                    |
           | orderId | <scenario_order_orderId> |
         Then the web response should contain "status" with value "filled"
+                 

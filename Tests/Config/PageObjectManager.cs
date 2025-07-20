@@ -15,6 +15,7 @@ public class PageObjectManager : IPageObjectManager
     private CommonPage _commonPage;
     private ClientProfilePage _clientProfilePage;
     private OrderPage _orderPage;
+    private DbHelperPage _dbHelperPage;
 
     public PageObjectManager(IWebDriver driver, AppSettings settings)
     {
@@ -36,4 +37,7 @@ public class PageObjectManager : IPageObjectManager
     
     public OrderPage OrderPage =>
         _orderPage ??= new OrderPage(_driver);
+
+    public DbHelperPage DbHelperPage =>
+        _dbHelperPage ??= new DbHelperPage(_settings);
 }

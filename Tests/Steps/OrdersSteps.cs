@@ -67,7 +67,7 @@ public class OrdersSteps
 
                 _pages.OrderPage.CreateTempWithDetails(tempDetails);
                 var tempId = _pages.TempProfilePage.GetTempIdFromFormData();
-                _scenarioContext[ScenarioKeys.TempUserId] = tempId;
+                _scenarioContext[ScenarioKeys.TempId] = tempId;
                 Console.WriteLine($"Saved Temp ID: {tempId}");
                 break;
             }
@@ -99,7 +99,7 @@ public class OrdersSteps
 
                 _pages.OrderPage.CreateClientWithDetails(clientDetails);
                 string clientId = _pages.ClientProfilePage.GetClientIdFromFormData();
-                _scenarioContext[ScenarioKeys.ClientUserId] = clientId;
+                _scenarioContext[ScenarioKeys.ClientId] = clientId;
                 Console.WriteLine("Saved Client ID: " + clientId);
                 break;
             }
