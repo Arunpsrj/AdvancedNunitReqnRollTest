@@ -27,13 +27,32 @@ jobs:
       - name: Generate test chunks
         run: |
           mkdir -p test_chunks
-          dotnet test --list-tests --no-build > all_tests.txt || true
-          grep -E "^[A-Za-z0-9_.]+$" all_tests.txt > clean_tests.txt
+          
+          # List tests and capture output
+          dotnet test --list-tests --no-build ./YourTestProject/YourTestProject.csproj > all_tests_raw.txt || true
+          
+          # Keep only fully qualified test names (no headers, no empty lines)
+          grep -E "^[A-Za-z0-9_.]+$" all_tests_raw.txt | sed 's/^[ \t]*//;s/[ \t]*$//' > clean_tests.txt
+          
+          # Fail if no tests found
+          if [ ! -s clean_tests.txt ]; then
+            echo "❌ No tests found!"
+            cat all_tests_raw.txt
+            exit 1
+          fi
+          
+          # Split evenly into 4 chunks
           split -n l/4 clean_tests.txt test_chunks/chunk_
-          mv test_chunks/chunk_aa test_chunks/tests_1.txt
-          mv test_chunks/chunk_ab test_chunks/tests_2.txt
-          mv test_chunks/chunk_ac test_chunks/tests_3.txt
-          mv test_chunks/chunk_ad test_chunks/tests_4.txt
+          
+          # Rename for matrix strategy
+          count=1
+          for f in test_chunks/chunk_*; do
+              mv "$f" "test_chunks/tests_${count}.txt"
+              count=$((count+1))
+          done
+          
+          echo "✅ Test chunks created:"
+          ls -l test_chunks
         shell: bash
 
       - name: Upload test chunks
@@ -106,15 +125,16 @@ jobs:
       - name: Run specific chunk
         run: |
           chunk_file="test_chunks/tests_${{ matrix.chunk }}.txt"
-          echo "Running tests from: $chunk_file"
+          echo "▶ Running tests from: $chunk_file"
           if [ -s "$chunk_file" ]; then
-            filter_expr=$(paste -sd'|' "$chunk_file")
-            dotnet test --no-build \
-              --filter "FullyQualifiedName~${filter_expr}" \
-              --logger:"trx;LogFileName=test_results.trx" \
-              --results-directory "TestResults"
+            while read -r test; do
+              dotnet test --no-build \
+                --filter "FullyQualifiedName=$test" \
+                --logger:"trx;LogFileName=test_results_${{ matrix.chunk }}.trx" \
+                --results-directory "TestResults"
+            done < "$chunk_file"
           else
-            echo "No tests found for this chunk."
+            echo "⚠ No tests found for this chunk."
           fi
         continue-on-error: true
 
