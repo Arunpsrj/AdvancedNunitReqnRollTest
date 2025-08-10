@@ -1,3 +1,6 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
 name: Run .NET Selenium Tests
 
 on:
@@ -9,6 +12,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -24,49 +28,13 @@ jobs:
       - name: Build project
         run: dotnet build --configuration Debug
 
-      - name: Generate test chunks
-        run: |
-          mkdir -p test_chunks
-          
-          # List tests and capture raw output
-          dotnet test --list-tests --no-build ./YourTestProject/YourTestProject.csproj > all_tests_raw.txt || true
-          
-          # Extract fully-qualified test names (ignore headers, blank lines)
-          grep -E "^[^ ]+\.[^ ]+$" all_tests_raw.txt | sed 's/^[ \t]*//;s/[ \t]*$//' > clean_tests.txt
-          
-          # Fail if no tests found
-          if [ ! -s clean_tests.txt ]; then
-            echo "❌ No tests found!"
-            cat all_tests_raw.txt
-            exit 1
-          fi
-          
-          # Split into 4 roughly equal chunks
-          split -n l/4 clean_tests.txt test_chunks/chunk_
-          
-          # Rename for matrix job usage
-          count=1
-          for f in test_chunks/chunk_*; do
-              mv "$f" "test_chunks/tests_${count}.txt"
-              count=$((count+1))
-          done
-          
-          echo "✅ Test chunks created:"
-          ls -l test_chunks
-        shell: bash
-
-      - name: Upload test chunks
-        uses: actions/upload-artifact@v4
-        with:
-          name: test_chunks
-          path: test_chunks/
+      - name: Set output path
+        id: set_output
+        run: echo "build_path=${{ github.workspace }}" >> $GITHUB_OUTPUT
 
   test:
     runs-on: ubuntu-latest
     needs: build
-    strategy:
-      matrix:
-        chunk: [1, 2, 3, 4]
 
     services:
       sqlserver:
@@ -77,9 +45,9 @@ jobs:
         ports:
           - 1433:1433
         options: >-
-          --health-cmd "exit 0"
-          --health-interval 10s
-          --health-timeout 5s
+          --health-cmd "exit 0" 
+          --health-interval 10s 
+          --health-timeout 5s 
           --health-retries 3
 
     steps:
@@ -109,75 +77,45 @@ jobs:
           /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'Kundrakudi@95' -d CTMQA -i scripts/sql/init.sql
           /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'Kundrakudi@95' -d CTMQA -i scripts/sql/data.sql
 
-      - name: Install Allure CLI
+      - name: Install Allure CLI (portable)
         run: |
           wget https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz
           tar -zxvf allure-2.27.0.tgz
           sudo mv allure-2.27.0 /opt/allure
           sudo ln -s /opt/allure/bin/allure /usr/bin/allure
+          allure --version
 
-      - name: Download test chunks
-        uses: actions/download-artifact@v4
-        with:
-          name: test_chunks
-          path: test_chunks/
+      - name: Build project
+        run: dotnet build --configuration Debug
 
-      - name: Run specific chunk
+      - name: Run NUnit Tests with Allure
         run: |
-          chunk_file="test_chunks/tests_${{ matrix.chunk }}.txt"
-          echo "▶ Running tests from: $chunk_file"
-          if [ -s "$chunk_file" ]; then
-            while read -r test; do
-              dotnet test --no-build \
-                --filter "FullyQualifiedName=$test" \
-                --logger:"trx;LogFileName=test_results_${{ matrix.chunk }}.trx" \
-                --results-directory "TestResults"
-            done < "$chunk_file"
-          else
-            echo "⚠ No tests found for this chunk."
-          fi
+          dotnet test --no-build --logger:"trx;LogFileName=test_results.trx" --results-directory "TestResults" --verbosity normal
         continue-on-error: true
-
-      - name: Upload Allure results
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-results-${{ matrix.chunk }}
-          path: TestResults/
-
-  merge-allure:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: Download Allure results
-        uses: actions/download-artifact@v4
-        with:
-          path: merged-allure
-
-      - name: Merge allure results
+        
+      - name: Generate Allure Results
         run: |
-          mkdir -p final-allure-results
-          cp -r merged-allure/allure-results-*/* final-allure-results/ || true
+          allure generate TestResults --clean -o allure-report
 
-      - name: Install Allure CLI
-        run: |
-          wget https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz
-          tar -zxvf allure-2.27.0.tgz
-          sudo mv allure-2.27.0 /opt/allure
-          sudo ln -s /opt/allure/bin/allure /usr/bin/allure
-
-      - name: Generate Allure report
-        run: allure generate final-allure-results --clean -o allure-report
-
-      - name: Upload Allure report
-        uses: actions/upload-artifact@v4
+      - name: Upload Allure Report
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: AllureReport
           path: allure-report
+          retention-days: 30
+
+      - name: Upload Allure Results (Raw)
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: AllureResults
+          path: TestResults
+          retention-days: 30
 
   deploy:
     name: Deploy Allure Report to GitHub Pages
-    needs: merge-allure
+    needs: test
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
