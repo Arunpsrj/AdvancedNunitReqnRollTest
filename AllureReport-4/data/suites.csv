@@ -1,6 +1,0 @@
-"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"failed","Sun Aug 10 03:41:58 UTC 2025","Sun Aug 10 03:42:12 UTC 2025","14554","","AdvancedReqnRollTest.Features.CTMTempProfilePageFunctionalitiesFeature","","AdvancedReqnRollTest.Features.CTMTempProfilePageFunctionalitiesFeature","","CreateANewTempRecord",""
-"passed","Sun Aug 10 03:41:16 UTC 2025","Sun Aug 10 03:41:20 UTC 2025","3730","","AdvancedReqnRollTest.Features.CTMLoginPageFeature","","AdvancedReqnRollTest.Features.CTMLoginPageFeature","","MainPageVerification",""
-"passed","Sun Aug 10 03:40:41 UTC 2025","Sun Aug 10 03:41:16 UTC 2025","34755","","AdvancedReqnRollTest.Features.CTMClientProfilePageFunctionalitiesFeature","","AdvancedReqnRollTest.Features.CTMClientProfilePageFunctionalitiesFeature","","CreateANewClientRecord",""
-"failed","Sun Aug 10 03:41:45 UTC 2025","Sun Aug 10 03:41:58 UTC 2025","12959","","AdvancedReqnRollTest.Features.CTMOrderFunctionalitiesFeature","","AdvancedReqnRollTest.Features.CTMOrderFunctionalitiesFeature","","GetOrderUsingClearConnectMethod",""
-"failed","Sun Aug 10 03:41:20 UTC 2025","Sun Aug 10 03:41:45 UTC 2025","25202","","AdvancedReqnRollTest.Features.CTMOrderFunctionalitiesFeature","","AdvancedReqnRollTest.Features.CTMOrderFunctionalitiesFeature","","CreateANewPerDiemOrder",""
