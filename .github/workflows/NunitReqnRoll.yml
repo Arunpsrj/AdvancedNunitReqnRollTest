@@ -1,4 +1,4 @@
-name: Run .NET Selenium Tests
+name: Run .NET Selenium Tests (Parallel)
 
 on:
   workflow_dispatch:
@@ -34,7 +34,7 @@ jobs:
     needs: build
     strategy:
       matrix:
-        run_id: [1, 2, 3, 4] # 4 parallel runs
+        chunk: [1, 2, 3, 4] # 4 parallel jobs
       fail-fast: false
 
     services:
@@ -45,18 +45,11 @@ jobs:
           ACCEPT_EULA: 'Y'
         ports:
           - 1433:1433
-        options: >-
-          --health-cmd "exit 0" 
-          --health-interval 10s 
-          --health-timeout 5s 
-          --health-retries 3
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+      - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'
 
@@ -69,8 +62,7 @@ jobs:
           echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
           source ~/.bashrc
 
-      - name: Wait for SQL Server to be ready
-        run: sleep 15
+      - run: sleep 15
 
       - name: Create & Seed DB
         run: |
@@ -78,43 +70,46 @@ jobs:
           /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'Kundrakudi@95' -d CTMQA -i scripts/sql/init.sql
           /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'Kundrakudi@95' -d CTMQA -i scripts/sql/data.sql
 
-      - name: Install Allure CLI (portable)
+      - name: Install Allure CLI
         run: |
           wget https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz
           tar -zxvf allure-2.27.0.tgz
           sudo mv allure-2.27.0 /opt/allure
           sudo ln -s /opt/allure/bin/allure /usr/bin/allure
-          allure --version
 
       - name: Build project
         run: dotnet build --configuration Debug
 
-      - name: Run NUnit Tests with Allure
+      - name: Split Tests into Chunks
         run: |
-          echo "=== Matrix Run #${{ matrix.run_id }} ==="
-          dotnet test --no-build --logger:"trx;LogFileName=test_results_${{ matrix.run_id }}.trx" --results-directory "TestResults" --verbosity normal
-        continue-on-error: true
-        
-      - name: Generate Allure Results
-        run: |
-          allure generate TestResults --clean -o allure-report
+          mkdir -p test_chunks
+          dotnet test --list-tests > all_tests.txt || true
+          grep -E "^[A-Za-z0-9_.]+$" all_tests.txt > clean_tests.txt
+          split -n l/4 clean_tests.txt test_chunks/chunk_
+          mv test_chunks/chunk_aa test_chunks/tests_1.txt
+          mv test_chunks/chunk_ab test_chunks/tests_2.txt
+          mv test_chunks/chunk_ac test_chunks/tests_3.txt
+          mv test_chunks/chunk_ad test_chunks/tests_4.txt
 
-      - name: Upload Allure Report
-        uses: actions/upload-artifact@v4.6.2
-        with:
-          name: AllureReport-${{ matrix.run_id }}
-          path: allure-report
-          retention-days: 30
+      - name: Run Tests for Chunk ${{ matrix.chunk }}
+        run: |
+          echo "=== Running chunk ${{ matrix.chunk }} ==="
+          TESTS=$(paste -sd '|' test_chunks/tests_${{ matrix.chunk }}.txt)
+          dotnet test --no-build \
+            --filter "FullyQualifiedName~$TESTS" \
+            --logger:"trx;LogFileName=test_results_chunk_${{ matrix.chunk }}.trx" \
+            --results-directory "TestResults"
+        continue-on-error: true
 
       - name: Upload Allure Results (Raw)
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: AllureResults-${{ matrix.run_id }}
+          name: AllureResults-${{ matrix.chunk }}
           path: TestResults
-          retention-days: 30
+          retention-days: 1
 
   deploy:
-    name: Deploy Allure Report to GitHub Pages
+    name: Merge Allure & Deploy
     needs: test
     runs-on: ubuntu-latest
 
@@ -122,11 +117,22 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Download Allure Report Artifacts
+      - name: Download Allure Results
         uses: actions/download-artifact@v4
         with:
-          pattern: AllureReport-*
-          path: allure-report
+          pattern: AllureResults-*
+          merge-multiple: true
+          path: TestResults
+
+      - name: Install Allure CLI
+        run: |
+          wget https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz
+          tar -zxvf allure-2.27.0.tgz
+          sudo mv allure-2.27.0 /opt/allure
+          sudo ln -s /opt/allure/bin/allure /usr/bin/allure
+
+      - name: Generate Combined Allure Report
+        run: allure generate TestResults --clean -o allure-report
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
