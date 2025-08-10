@@ -58,9 +58,9 @@ jobs:
         ports:
           - 1433:1433
         options: >-
-          --health-cmd "exit 0" 
-          --health-interval 10s 
-          --health-timeout 5s 
+          --health-cmd "exit 0"
+          --health-interval 10s
+          --health-timeout 5s
           --health-retries 3
 
     steps:
@@ -107,7 +107,15 @@ jobs:
         run: |
           chunk_file="test_chunks/tests_${{ matrix.chunk }}.txt"
           echo "Running tests from: $chunk_file"
-          xargs -a "$chunk_file" dotnet test --no-build --filter FullyQualifiedName~ --logger:"trx;LogFileName=test_results.trx" --results-directory "TestResults"
+          if [ -s "$chunk_file" ]; then
+            filter_expr=$(paste -sd'|' "$chunk_file")
+            dotnet test --no-build \
+              --filter "FullyQualifiedName~${filter_expr}" \
+              --logger:"trx;LogFileName=test_results.trx" \
+              --results-directory "TestResults"
+          else
+            echo "No tests found for this chunk."
+          fi
         continue-on-error: true
 
       - name: Upload Allure results
@@ -128,7 +136,7 @@ jobs:
       - name: Merge allure results
         run: |
           mkdir -p final-allure-results
-          cp -r merged-allure/allure-results-*/* final-allure-results/
+          cp -r merged-allure/allure-results-*/* final-allure-results/ || true
 
       - name: Install Allure CLI
         run: |
