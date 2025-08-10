@@ -1,6 +1,3 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
 name: Run .NET Selenium Tests
 
 on:
@@ -35,6 +32,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     needs: build
+    strategy:
+      matrix:
+        run_id: [1, 2, 3, 4] # 4 parallel runs
+      fail-fast: false
 
     services:
       sqlserver:
@@ -90,7 +91,8 @@ jobs:
 
       - name: Run NUnit Tests with Allure
         run: |
-          dotnet test --no-build --logger:"trx;LogFileName=test_results.trx" --results-directory "TestResults" --verbosity normal
+          echo "=== Matrix Run #${{ matrix.run_id }} ==="
+          dotnet test --no-build --logger:"trx;LogFileName=test_results_${{ matrix.run_id }}.trx" --results-directory "TestResults" --verbosity normal
         continue-on-error: true
         
       - name: Generate Allure Results
@@ -100,14 +102,14 @@ jobs:
       - name: Upload Allure Report
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: AllureReport
+          name: AllureReport-${{ matrix.run_id }}
           path: allure-report
           retention-days: 30
 
       - name: Upload Allure Results (Raw)
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: AllureResults
+          name: AllureResults-${{ matrix.run_id }}
           path: TestResults
           retention-days: 30
 
@@ -120,10 +122,10 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Download Allure Report Artifact
+      - name: Download Allure Report Artifacts
         uses: actions/download-artifact@v4
         with:
-          name: AllureReport
+          pattern: AllureReport-*
           path: allure-report
 
       - name: Deploy to GitHub Pages
