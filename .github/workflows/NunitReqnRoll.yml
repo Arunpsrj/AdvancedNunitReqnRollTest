@@ -28,11 +28,11 @@ jobs:
         run: |
           mkdir -p test_chunks
           
-          # List tests and capture output
+          # List tests and capture raw output
           dotnet test --list-tests --no-build ./YourTestProject/YourTestProject.csproj > all_tests_raw.txt || true
           
-          # Keep only fully qualified test names (no headers, no empty lines)
-          grep -E "^[A-Za-z0-9_.]+$" all_tests_raw.txt | sed 's/^[ \t]*//;s/[ \t]*$//' > clean_tests.txt
+          # Extract fully-qualified test names (ignore headers, blank lines)
+          grep -E "^[^ ]+\.[^ ]+$" all_tests_raw.txt | sed 's/^[ \t]*//;s/[ \t]*$//' > clean_tests.txt
           
           # Fail if no tests found
           if [ ! -s clean_tests.txt ]; then
@@ -41,10 +41,10 @@ jobs:
             exit 1
           fi
           
-          # Split evenly into 4 chunks
+          # Split into 4 roughly equal chunks
           split -n l/4 clean_tests.txt test_chunks/chunk_
           
-          # Rename for matrix strategy
+          # Rename for matrix job usage
           count=1
           for f in test_chunks/chunk_*; do
               mv "$f" "test_chunks/tests_${count}.txt"
